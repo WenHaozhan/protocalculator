@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MainApp());
+  runApp(ChangeNotifierProvider(create: (context) => CalculatorInput(), child: const MainApp()));
 }
 
 class MainApp extends StatelessWidget {
@@ -20,38 +21,12 @@ class MainApp extends StatelessWidget {
   }
 
 }
-
-class MyCalculator extends StatefulWidget {
-  const MyCalculator({super.key});
-
-  @override 
-  State<StatefulWidget> createState() => _CalculatorState();
-}
-
-class _CalculatorState extends State<MyCalculator> {
+class CalculatorInput extends ChangeNotifier {
   String input = "";
 
-  @override
-  Widget build(BuildContext context) {
-    return  Column(
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: [
-        Text(input, textAlign: TextAlign.right), 
-        Expanded(child: GridView.count(
-            crossAxisCount: 4, 
-            children: List<Widget>.from(
-              ['7','8','9','×', '4','5','6','÷','1','2','3','-','0','=','+'].map((c)=> CalculatorButton(c : c, callback: clickHandler))
-            ) 
-          )
-        )
-      ]
-    );
-  }
-
-  clickHandler(String s) {
-    setState(() {
-      if (s.compareTo('=') != 0) {
-      input += s;
+  void add(String c) {
+    if (c != '=') {
+      input += c;
     } else {
       var temp = input.split(RegExp(r'[+\-×÷]'));
       assert(temp.length == 2);
@@ -72,19 +47,47 @@ class _CalculatorState extends State<MyCalculator> {
           //error
       }
     }
-    });
+    notifyListeners();
   }
+}
 
+class MyCalculator extends StatelessWidget {
+  const MyCalculator({super.key});
+
+  @override 
+  Widget build(BuildContext context) {
+    return  Column(
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        Consumer<CalculatorInput>(
+           builder: (context, input, child) {
+            return Text(input.input, textAlign: TextAlign.right);
+           }),
+        Expanded(child: GridView.count(
+            crossAxisCount: 4, 
+            children: List<Widget>.from(
+              ['7','8','9','×', '4','5','6','÷','1','2','3','-','0','=','+'].map((c)=> 
+                Consumer<CalculatorInput>(builder: (context, input, child) {
+                  return CalculatorButton(c : c);
+                }))
+              ) 
+          )
+        )
+      ]
+    );
+  }
 }
 
 
 class CalculatorButton extends StatelessWidget {
-  const CalculatorButton({required this.c, required this.callback , super.key});
+  const CalculatorButton({required this.c, super.key});
   final String c;
-  final void Function(String) callback;
 
   @override
   Widget build(BuildContext context) {
-    return TextButton(onPressed: () => callback(c), child: Text(c));
+    return TextButton(onPressed: (){
+      var input = context.read<CalculatorInput>();
+      input.add(c);
+    }, child: Text(c));
   }
 }
