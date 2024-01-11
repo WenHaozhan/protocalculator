@@ -9,9 +9,12 @@ class CalculatorButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextButton(onPressed: (){
+    return TextButton(onPressed: c == '' ? null : (){
       var input = context.read<CalculatorInput>();
       input.add(c);
-    }, child: Text(c));
+    }
+    , style: const ButtonStyle(foregroundColor: MaterialStatePropertyAll<Color>(Colors.black), backgroundColor: MaterialStatePropertyAll<Color>(Colors.white)
+      , shape: MaterialStatePropertyAll<RoundedRectangleBorder>(RoundedRectangleBorder())),
+    child: Text(c, style: const TextStyle(fontSize: 20)));
   }
 }

@@ -36,12 +36,12 @@ class MyCalculator extends StatelessWidget {
       children: [
         BlocBuilder<CalculatorInput, String>(
            builder: (context, input) {
-            return Text(input, textAlign: TextAlign.right);
+            return Container( padding: const EdgeInsets.only(right: 40) , child : Text(input, textAlign: TextAlign.right, style: const TextStyle(fontSize: 30) ));
            }),
         Expanded(child: GridView.count(
             crossAxisCount: 4, 
             children: List<Widget>.from(
-              ['7','8','9','×', '4','5','6','÷','1','2','3','-','0','=','+'].map((c)=> 
+              ['7','8','9','×', '4','5','6','÷','1','2','3','-','','0','=','+'].map((c)=> 
                 BlocBuilder<CalculatorInput, String>(builder: (context, input) {
                   return CalculatorButton(c : c);
                 }))
