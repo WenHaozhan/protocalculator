@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import "calculator_button.dart";
+import "calculator_input.dart";
+
 void main() {
   runApp(ChangeNotifierProvider(create: (context) => CalculatorInput(), child: const MainApp()));
 }
@@ -21,35 +24,7 @@ class MainApp extends StatelessWidget {
   }
 
 }
-class CalculatorInput extends ChangeNotifier {
-  String input = "";
 
-  void add(String c) {
-    if (c != '=') {
-      input += c;
-    } else {
-      var temp = input.split(RegExp(r'[+\-×÷]'));
-      assert(temp.length == 2);
-      String op = input[temp[0].length];
-      int num1 = int.parse(temp[0]);
-      int num2 = int.parse(temp[1]);
-
-      switch (op) {
-        case '+':
-          input = "${num1 + num2}";
-        case '-':
-          input = "${num1 - num2}";
-        case '×':
-          input = "${num1 * num2}";
-        case '÷':
-          input = "${num1 / num2}";
-        default:
-          //error
-      }
-    }
-    notifyListeners();
-  }
-}
 
 class MyCalculator extends StatelessWidget {
   const MyCalculator({super.key});
@@ -79,15 +54,3 @@ class MyCalculator extends StatelessWidget {
 }
 
 
-class CalculatorButton extends StatelessWidget {
-  const CalculatorButton({required this.c, super.key});
-  final String c;
-
-  @override
-  Widget build(BuildContext context) {
-    return TextButton(onPressed: (){
-      var input = context.read<CalculatorInput>();
-      input.add(c);
-    }, child: Text(c));
-  }
-}
