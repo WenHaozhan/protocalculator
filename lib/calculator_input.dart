@@ -1,9 +1,11 @@
-import 'package:flutter/material.dart';
+//import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class CalculatorInput extends ChangeNotifier {
-  String input = "";
-
+class CalculatorInput extends Cubit<String> {
+  CalculatorInput() : super("");
+  
   void add(String c) {
+    var input = state;
     if (c != '=') {
       input += c;
     } else {
@@ -26,6 +28,6 @@ class CalculatorInput extends ChangeNotifier {
           //error
       }
     }
-    notifyListeners();
+    emit(input);
   }
 }
