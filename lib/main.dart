@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import "calculator_button_layout.dart";
 import "calculator_input.dart";
 
-void main() {
+void main() /* async */ {
+  // WidgetsFlutterBinding.ensureInitialized();
+  // final SharedPreferences prefs = await SharedPreferences.getInstance();
+  // final String? input = prefs.getString('input');
+  // var ret =
+  //     await prefs.setString('input', input != null ? "${input}1" : "123456789");
+  // print(await prefs.getString('input'));
   runApp(
       BlocProvider(create: (_) => CalculatorInput(), child: const MainApp()));
 }
