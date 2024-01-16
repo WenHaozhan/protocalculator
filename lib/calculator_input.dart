@@ -1,11 +1,22 @@
-//import 'package:flutter/material.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+part 'calculator_input.freezed.dart';
 
-class CalculatorInput extends Cubit<String> {
-  CalculatorInput() : super("");
-  
+//import 'package:flutter/material.dart';
+
+@unfreezed
+class CalculatorState with _$CalculatorState {
+  const factory CalculatorState({required final String input}) =
+      _CalculatorState;
+}
+
+class CalculatorInput extends Cubit<CalculatorState> {
+  CalculatorInput() : super(const CalculatorState(input: ''));
+
   void add(String c) {
-    var input = state;
+    final cs = state;
+    var input = cs.input;
     if (c != '=') {
       input += c;
     } else {
@@ -25,9 +36,9 @@ class CalculatorInput extends Cubit<String> {
         case '÷':
           input = "${num1 / num2}";
         default:
-          //error
+        //error
       }
     }
-    emit(input);
+    emit(CalculatorState(input: input));
   }
 }

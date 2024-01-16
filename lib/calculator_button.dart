@@ -9,15 +9,16 @@ class CalculatorButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final input = context.watch<CalculatorInput>();
     return Expanded(
         child: TextButton(
             onPressed: c == ''
                 ? null
                 : () {
-                    var input = context.read<CalculatorInput>();
                     input.add(c);
                   },
             style: const ButtonStyle(
+                overlayColor: MaterialStatePropertyAll<Color>(Colors.grey),
                 foregroundColor: MaterialStatePropertyAll<Color>(Colors.black),
                 backgroundColor: MaterialStatePropertyAll<Color>(Colors.white),
                 shape: MaterialStatePropertyAll<RoundedRectangleBorder>(

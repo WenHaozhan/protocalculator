@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import "calculator_button_layout.dart";
 import "calculator_input.dart";
@@ -16,14 +17,18 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         //color: Colors.white,
+        theme: ThemeData(
+            colorScheme: const ColorScheme.light(),
+            textTheme: GoogleFonts.openSansTextTheme()),
+        title: 'Calculator',
         home: Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        title: const Text(""),
-      ),
-      body: const MyCalculator(),
-    ));
+          //backgroundColor: Colors.white,
+          appBar: AppBar(
+            //backgroundColor: Colors.white,
+            title: const Text(""),
+          ),
+          body: const MyCalculator(),
+        ));
   }
 }
 
@@ -33,11 +38,11 @@ class MyCalculator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
-      BlocBuilder<CalculatorInput, String>(builder: (context, input) {
+      BlocBuilder<CalculatorInput, CalculatorState>(builder: (context, cs) {
         return Container(
             color: Colors.white,
             padding: const EdgeInsets.only(right: 40, left: 40),
-            child: Text(input,
+            child: Text(cs.input,
                 textAlign: TextAlign.right,
                 style: const TextStyle(fontSize: 30)));
       }),

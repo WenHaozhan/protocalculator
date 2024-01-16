@@ -4,10 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import "calculator_input.dart";
 import "calculator_button.dart";
 
-var buttonBuilder =
-    (c) => BlocBuilder<CalculatorInput, String>(builder: (context, input) {
-          return CalculatorButton(c: c);
-        });
+var buttonBuilder = (c) =>
+    BlocBuilder<CalculatorInput, CalculatorState>(builder: (context, input) {
+      return CalculatorButton(c: c);
+    });
 
 class CalculatorButtonLayout extends StatelessWidget {
   const CalculatorButtonLayout({super.key});
